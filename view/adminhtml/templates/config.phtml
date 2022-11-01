@@ -1,0 +1,9 @@
+<?php
+/** @var Magento\Framework\View\Element\Template $block */
+?>
+<script src="<?= $block->getViewFileUrl('Loqate_ApiIntegration::capture.js') ?>"></script>
+<link href="<?= $block->getViewFileUrl('Loqate_ApiIntegration::capture.css') ?>" rel="stylesheet" type="text/css" />
+<script>
+    const loqateFindUrl = '<?= $block->getUrl('loqate_admin/capture/find'); ?>';
+    const loqateRetrieveUrl = '<?= $block->getUrl('loqate_admin/capture/retrieve'); ?>';
+</script>

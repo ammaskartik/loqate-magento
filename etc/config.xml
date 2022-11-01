@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<loqate_settings>
+            <capture_settings>
+                <enable_customer_account>1</enable_customer_account>
+                <enable_checkout>1</enable_checkout>
+                <enable_customer_account_admin>1</enable_customer_account_admin>
+                <enable_create_order_admin>1</enable_create_order_admin>
+            </capture_settings>
+            <address_settings>
+                <address_quality_index>A</address_quality_index>
+                <enable_customer_account>1</enable_customer_account>
+                <enable_checkout>1</enable_checkout>
+                <enable_customer_account_admin>1</enable_customer_account_admin>
+                <enable_create_order_admin>1</enable_create_order_admin>
+                <enable_customer_import>1</enable_customer_import>
+            </address_settings>
+            <email_settings>
+                <prevent_submit>0</prevent_submit>
+                <enable_customer_account>1</enable_customer_account>
+                <enable_register>1</enable_register>
+                <enable_checkout>1</enable_checkout>
+                <enable_customer_account_admin>1</enable_customer_account_admin>
+                <enable_create_order_admin>1</enable_create_order_admin>
+            </email_settings>
+            <phone_settings>
+                <prevent_submit>0</prevent_submit>
+                <enable_customer_account>1</enable_customer_account>
+                <enable_checkout>1</enable_checkout>
+                <enable_customer_account_admin>1</enable_customer_account_admin>
+                <enable_create_order_admin>1</enable_create_order_admin>
+            </phone_settings>
+		</loqate_settings>
+	</default>
+</config>

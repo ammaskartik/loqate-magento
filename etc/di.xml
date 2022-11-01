@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Loqate\ApiIntegration\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Loqate\ApiIntegration\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">Loqate</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Loqate\ApiIntegration\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+<!--    plugins-->
+    <type name="Magento\Customer\Controller\Address\FormPost">
+        <plugin name="LoqateCustomerAccountAddress" type="Loqate\ApiIntegration\Plugin\Frontend\CustomerAccountAddress" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Account\CreatePost">
+        <plugin name="LoqateCustomerAccountCreate" type="Loqate\ApiIntegration\Plugin\Frontend\CustomerAccountCreate" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Account\EditPost">
+        <plugin name="LoqateCustomerAccountEdit" type="Loqate\ApiIntegration\Plugin\Frontend\CustomerAccountEdit" sortOrder="1" />
+    </type>
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="LoqateCheckoutShippingInformation" type="Loqate\ApiIntegration\Plugin\Frontend\CheckoutShippingInformation" sortOrder="1" />
+    </type>
+    <type name="Magento\Quote\Model\BillingAddressManagement">
+        <plugin name="LoqateCheckoutBillingAddress" type="Loqate\ApiIntegration\Plugin\Frontend\CheckoutBillingAddress" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Adminhtml\Address\Validate">
+        <plugin name="LoqateAdminValidateAddress" type="Loqate\ApiIntegration\Plugin\Admin\ValidateAddress" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
+        <plugin name="LoqateAdminSaveOrder" type="Loqate\ApiIntegration\Plugin\Admin\OrderSave" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Adminhtml\Index\Validate">
+        <plugin name="LoqateAdminValidateCustomer" type="Loqate\ApiIntegration\Plugin\Admin\ValidateCustomer" sortOrder="1" />
+    </type>
+    <type name="Magento\CustomerImportExport\Model\Import\Address">
+        <plugin name="LoqateAdminValidateImportAddress" type="Loqate\ApiIntegration\Plugin\Admin\ValidateImportAddress" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Model\AccountManagement">
+        <plugin name="LoqateStoreGuestEmail" type="Loqate\ApiIntegration\Plugin\Frontend\AccountManagement" sortOrder="1" />
+    </type>
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="LoqatePlaceOrder" type="Loqate\ApiIntegration\Plugin\Frontend\PlaceOrder" sortOrder="1" />
+    </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="LoqatePlaceOrderGuest" type="Loqate\ApiIntegration\Plugin\Frontend\PlaceOrderGuest" sortOrder="1" />
+    </type>
+</config>
