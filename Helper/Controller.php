@@ -10,6 +10,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Module\ModuleListInterface;
 
 /**
  * Controller class
@@ -34,6 +35,9 @@ class Controller
     /** @var Session $session */
     private $session;
 
+    /** @var string */
+    private $version = null;
+
     /**
      * Find constructor
      *
@@ -42,13 +46,15 @@ class Controller
      * @param RequestInterface $request
      * @param Logger $logger
      * @param Session $session
+     * @param ModuleListInterface $moduleList
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         ResultFactory        $resultJsonFactory,
         RequestInterface     $request,
         Logger               $logger,
-        Session              $session
+        Session              $session,
+        ModuleListInterface  $moduleList
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->resultJsonFactory = $resultJsonFactory;
@@ -58,6 +64,7 @@ class Controller
         if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
         }
+        $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
     }
 
     /**
@@ -70,7 +77,7 @@ class Controller
         $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
         if ($this->apiConnector) {
             $searchText = $this->request->getParam('text');
-            $apiRequestParams = ['Text' => $searchText];
+            $apiRequestParams = ['Text' => $searchText, 'source' => $this->version];
 
             $result = $this->apiConnector->find($apiRequestParams);
 
@@ -97,7 +104,7 @@ class Controller
         $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
         if ($this->apiConnector) {
             $addressId = $this->request->getParam('address_id');
-            $apiRequestParams = ['Id' => $addressId];
+            $apiRequestParams = ['Id' => $addressId, 'source' => $this->version];
 
             $result = $this->apiConnector->retrieve($apiRequestParams);
 

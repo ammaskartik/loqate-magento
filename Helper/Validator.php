@@ -7,6 +7,7 @@ use Loqate\ApiIntegration\Logger\Logger;
 use Magento\Customer\Model\Session;
 use Magento\Directory\Model\RegionFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Module\ModuleListInterface;
 
 /**
  * Class Validator
@@ -47,6 +48,9 @@ class Validator
     /** @var RegionFactory */
     private $regionFactory;
 
+    /** @var string */
+    private $version = null;
+
     /**
      * Validator construct
      *
@@ -54,12 +58,14 @@ class Validator
      * @param Logger $logger
      * @param Session $session
      * @param RegionFactory $regionFactory
+     * @param ModuleListInterface $moduleList
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Logger               $logger,
         Session              $session,
-        RegionFactory        $regionFactory
+        RegionFactory        $regionFactory,
+        ModuleListInterface  $moduleList
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
@@ -68,6 +74,7 @@ class Validator
         if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Verify($apiKey);
         }
+        $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
     }
 
     /**
@@ -78,7 +85,7 @@ class Validator
      */
     public function verifyEmail($emailAddress)
     {
-        $response = $this->apiConnector->verifyEmail(['Email' => $emailAddress]);
+        $response = $this->apiConnector->verifyEmail(['Email' => $emailAddress, 'source' => $this->version]);
 
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
@@ -95,7 +102,7 @@ class Validator
      */
     public function verifyPhoneNumber($phoneNumber)
     {
-        $response = $this->apiConnector->verifyPhone(['Phone' => $phoneNumber]);
+        $response = $this->apiConnector->verifyPhone(['Phone' => $phoneNumber, 'source' => $this->version]);
 
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
@@ -120,7 +127,7 @@ class Validator
             }
         }
 
-        $response = $this->apiConnector->verifyAddress(['Addresses' => [$requestArray]]);
+        $response = $this->apiConnector->verifyAddress(['Addresses' => [$requestArray], 'source' => $this->version]);
 
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
@@ -167,7 +174,7 @@ class Validator
             return $addressesToCheck;
         }
 
-        $response = $this->apiConnector->verifyAddress(['Addresses' => $requestArray]);
+        $response = $this->apiConnector->verifyAddress(['Addresses' => $requestArray, 'source' => $this->version]);
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
             return false;
