@@ -8,7 +8,7 @@ Performs address capture and data validation (email, phone number and address) u
 
 Request composer to fetch the module:
 ```
-composer require loqate/api-integration
+composer require loqate-integration/adobe
 ```
 
 ###Manual Download
