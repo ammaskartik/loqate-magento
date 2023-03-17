@@ -4,7 +4,7 @@
     "type": "magento2-module",
     "version": "1.0.0",
     "require": {
-        "loqate/api-connector": "dev-master"
+        "loqate-integration/api-connector": "dev-master"
     },
     "authors": [
         {
