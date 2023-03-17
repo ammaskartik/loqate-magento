@@ -1,5 +1,5 @@
 {
-    "name": "loqate/api-integration",
+    "name": "loqate-integration/adobe",
     "description": "Performs address capture and data validation (email, phone number and address) using Loqate API.",
     "type": "magento2-module",
     "version": "1.0.0",
