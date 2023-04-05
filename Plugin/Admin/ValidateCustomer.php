@@ -24,6 +24,10 @@ class ValidateCustomer extends AbstractPlugin
      */
     public function aroundExecute(Validate $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_customer_account_admin')) {
             $request = $subject->getRequest()->getPostValue();
 

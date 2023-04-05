@@ -63,6 +63,9 @@ class Controller
         $this->session = $session;
         if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
+        } else {
+            $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
+            return false;
         }
         $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
     }

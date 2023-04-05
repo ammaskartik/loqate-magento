@@ -24,6 +24,10 @@ class ValidateAddress extends AbstractPlugin
      */
     public function aroundExecute(Validate $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         $request = $subject->getRequest()->getPostValue();
         $errors = [];
 
@@ -36,7 +40,7 @@ class ValidateAddress extends AbstractPlugin
             }
 
             $response = $this->validator->verifyAddress($request);
-            if ($response['error']) {
+            if (!empty($response['error'])) {
                 $errors[] = $response['message'];
             }
         }

@@ -73,7 +73,11 @@ class Validator
         $this->regionFactory = $regionFactory;
         if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Verify($apiKey);
+        } else {
+            $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
+            return false;
         }
+
         $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
     }
 
@@ -85,6 +89,10 @@ class Validator
      */
     public function verifyEmail($emailAddress)
     {
+        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+            return ['noKeyFound' => true];
+        }
+
         $response = $this->apiConnector->verifyEmail(['Email' => $emailAddress, 'source' => $this->version]);
 
         if (isset($response['error'])) {
@@ -102,6 +110,10 @@ class Validator
      */
     public function verifyPhoneNumber($phoneNumber)
     {
+        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+            return ['noKeyFound' => true];
+        }
+
         $response = $this->apiConnector->verifyPhone(['Phone' => $phoneNumber, 'source' => $this->version]);
 
         if (isset($response['error'])) {
@@ -120,6 +132,10 @@ class Validator
      */
     public function verifyAddress($address, $checkForCaptured = true): array
     {
+        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+            return ['noKeyFound' => true];
+        }
+
         $requestArray = $this->parseAddress($address);
         if ($checkForCaptured && ($storedAddresses = $this->session->getData('captured_addresses'))) {
             if ($this->checkForCapturedAddress($requestArray, $storedAddresses)) {
@@ -150,6 +166,9 @@ class Validator
      */
     public function verifyMultipleAddresses($addresses, $checkForCaptured = true)
     {
+        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+            return ['noKeyFound' => true];
+        }
 
         if ($checkForCaptured) {
             $storedAddresses = $this->session->getData('captured_addresses');

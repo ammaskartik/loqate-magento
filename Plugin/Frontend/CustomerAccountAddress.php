@@ -20,6 +20,10 @@ class CustomerAccountAddress extends AbstractPlugin
      */
     public function aroundExecute(FormPost $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         $request = $subject->getRequest()->getPostValue();
 
         if ($this->helper->getConfigValueForWebsite('loqate_settings/address_settings/enable_customer_account')) {
@@ -31,7 +35,7 @@ class CustomerAccountAddress extends AbstractPlugin
             }
 
             $response = $this->validator->verifyAddress($request);
-            if ($response['error']) {
+            if (!empty($response['error'])) {
                 $error = true;
                 $this->messageManager->addErrorMessage($response['message']);
             }

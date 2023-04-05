@@ -22,11 +22,15 @@ class CheckoutShippingInformation extends AbstractPlugin
         $cartId,
         $addressInformation
     ) {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            $proceed($cartId, $addressInformation);
+        }
+
         if ($shippingAddress = $addressInformation->getShippingAddress()->getData()) {
             $errors = [];
             if ($this->helper->getConfigValueForWebsite('loqate_settings/address_settings/enable_checkout')) {
                 $response = $this->validator->verifyAddress($shippingAddress);
-                if ($response['error']) {
+                if (!empty($response['error'])) {
                     $errors[] = $response['message'];
                 }
             }

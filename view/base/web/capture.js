@@ -16,7 +16,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
 
         //wait until the address fields are rendered
         setInterval(function() {
-            const streetInput = $('[name*="street"][name*="[0]"]');
+            let streetInput = $( "#street_1" );
+            if (streetInput.length === 0) { streetInput = $('[name*="street"][name*="[0]"]');}
+
             if ($(streetInput).length) {
                 captureConfig(streetInput);
             }
@@ -34,16 +36,37 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                         form = $(element).closest('form');
                     }
 
+                    let street_1 = form.find('#street_1');
+                    if (street_1.length === 0) { street_1 = form.find('[name*="street"][name*="[0]"]');}
+
+                    let street_2 = form.find('#street_2');
+                    if (street_2.length === 0) { street_2 = form.find('[name*="street"][name*="[1]"]');}
+
+                    let postcode = form.find('#zip');
+                    if (postcode.length === 0) { postcode = form.find('[name*="postcode"]');}
+
+                    let city = form.find('#city');
+                    if (city.length === 0) { city = form.find('[name*="city"]');}
+
+                    let county_input = form.find('#region');
+                    if (county_input.length === 0) { county_input = form.find('[name*="region"]');}
+
+                    let county_list = form.find('#region_id');
+                    if (county_list.length === 0) { county_list = form.find('[name*="region_id"]');}
+
+                    let country = form.find('#country');
+                    if (country.length === 0) { country = form.find('[name*="country_id"]');}
+
                     const addressElements = {
-                        street_1: form.find('[name*="street"][name*="[0]"]'),
-                        street_2: form.find('[name*="street"][name*="[1]"]'),
-                        postcode: form.find('[name*="postcode"]'),
-                        city: form.find('[name*="city"]'),
+                        street_1: street_1,
+                        street_2: street_2,
+                        postcode: postcode,
+                        city: city,
                         county: {
-                            input: form.find('[name*="region"]'),
-                            list: form.find('[name*="region_id"]')
+                            input: county_input,
+                            list: county_list
                         },
-                        country: form.find('[name*="country_id"]')
+                        country: country
                     };
 
                     // create a DIV element which will contain the addresses

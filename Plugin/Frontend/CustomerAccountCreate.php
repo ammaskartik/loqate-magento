@@ -20,6 +20,10 @@ class CustomerAccountCreate extends AbstractPlugin
      */
     public function aroundExecute(CreatePost $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_customer_account')) {
             $request = $subject->getRequest()->getPostValue();
 

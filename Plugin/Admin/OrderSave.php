@@ -20,6 +20,10 @@ class OrderSave extends AbstractPlugin
      */
     public function aroundExecute(Save $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         $request = $subject->getRequest()->getPostValue();
         $error = false;
         $requestAddresses = [];

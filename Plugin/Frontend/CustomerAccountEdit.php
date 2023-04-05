@@ -20,6 +20,10 @@ class CustomerAccountEdit extends AbstractPlugin
      */
     public function aroundExecute(EditPost $subject, callable $proceed)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $proceed();
+        }
+
         if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_register')) {
             $request = $subject->getRequest()->getPostValue();
 

@@ -121,6 +121,10 @@ abstract class AbstractPlugin
             return $errorMessage;
         }
 
+        if (isset($response['noKeyFound'])) {
+            return false;
+        }
+
         return false;
     }
 
@@ -148,6 +152,10 @@ abstract class AbstractPlugin
 
         if (!$response) {
             return $errorMessage;
+        }
+
+        if (isset($response['noKeyFound'])) {
+            return false;
         }
 
         return false;

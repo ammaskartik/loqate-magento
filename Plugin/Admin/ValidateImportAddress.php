@@ -22,6 +22,10 @@ class ValidateImportAddress extends AbstractPlugin
      */
     public function afterValidateData(Address $subject, $result)
     {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
+            return $result;
+        }
+
         if ($this->helper->getConfigValue('loqate_settings/address_settings/enable_customer_import')
         && $subject->getBehavior() == Import::BEHAVIOR_ADD_UPDATE) {
             try {
