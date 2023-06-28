@@ -84,9 +84,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                             if (inputTimer) {
                                 clearTimeout(inputTimer);
                             }
-
+                            var selectedCountryIso2 = country.val();
                             inputTimer = setTimeout(function() {
-                                getAddresses(element, addressList);
+                                getAddresses(element, addressList, selectedCountryIso2);
                             }, 500);
                         } else {
                             $(addressList).empty();
@@ -105,10 +105,10 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         }
     }
 
-    function getAddresses(streetInput, addressList)
+    function getAddresses(streetInput, addressList, origin)
     {
         $(addressList).empty();
-        const params = {'text': $(streetInput).val()}
+        const params = {'text': $(streetInput).val(), 'origin': origin}
         const captureUrl = loqateFindUrl + '?' +  $.param(params);
         jQuery.ajax({
             type: "GET",

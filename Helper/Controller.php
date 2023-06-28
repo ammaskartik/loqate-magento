@@ -80,10 +80,12 @@ class Controller
         $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
         if ($this->apiConnector) {
             $searchText = $this->request->getParam('text');
-            $apiRequestParams = ['Text' => $searchText, 'source' => $this->version];
+            $origin = $this->request->getParam('origin');
+
+            $apiRequestParams = ['Text' => $searchText, 'source' => $this->version, 'Origin' => $origin];
 
             $result = $this->apiConnector->find($apiRequestParams);
-
+            
             if (isset($result['error'])) {
                 $this->logger->info($result['message']);
                 return $resultJson->setData(
