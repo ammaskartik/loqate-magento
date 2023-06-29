@@ -37,7 +37,7 @@ class CheckoutShippingInformation extends AbstractPlugin
 
             if ($this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/enable_checkout')) {
                 if (isset($shippingAddress['telephone'])) {
-                    $errorMessage = $this->validatePhone($shippingAddress['telephone']);
+                    $errorMessage = $this->validatePhone($shippingAddress['telephone'], $shippingAddress['country_id']);
                     if ($errorMessage) {
                         $errors[] = $errorMessage;
                     }

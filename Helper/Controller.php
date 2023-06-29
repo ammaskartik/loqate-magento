@@ -85,7 +85,7 @@ class Controller
             $apiRequestParams = ['Text' => $searchText, 'source' => $this->version, 'Origin' => $origin];
 
             $result = $this->apiConnector->find($apiRequestParams);
-            
+
             if (isset($result['error'])) {
                 $this->logger->info($result['message']);
                 return $resultJson->setData(

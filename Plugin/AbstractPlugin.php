@@ -134,7 +134,7 @@ abstract class AbstractPlugin
      * @param $phone
      * @return false|Phrase
      */
-    protected function validatePhone($phone)
+    protected function validatePhone($phone, $country = null)
     {
         $errorMessage = __('The provided phone number is invalid.');
         if (!$this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/prevent_submit')) {
@@ -144,7 +144,7 @@ abstract class AbstractPlugin
             $errorMessage = __('Invalid phone number. Submit again to use this phone number.');
         }
 
-        $response = $this->validator->verifyPhoneNumber($phone);
+        $response = $this->validator->verifyPhoneNumber($phone, $country);
 
         if (isset($response['error'])) {
             return __('An unexpected error occurred while trying to validate your phone number.');

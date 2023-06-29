@@ -39,7 +39,7 @@ class CheckoutBillingAddress extends AbstractPlugin
 
             if ($this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/enable_checkout')) {
                 if (isset($billingAddress['telephone'])) {
-                    $errorMessage = $this->validatePhone($billingAddress['telephone']);
+                    $errorMessage = $this->validatePhone($billingAddress['telephone'], $billingAddress['country_id']);
                     if ($errorMessage) {
                         $errors[] = $errorMessage;
                     }
