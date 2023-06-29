@@ -33,6 +33,11 @@
                     <label>Enable on Create Order (ADMIN)</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="restrict_countries" translate="label" type="multiselect" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Restrict searchable countries to this list</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
             </group>
             <group id="address_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Address Verify</label>
