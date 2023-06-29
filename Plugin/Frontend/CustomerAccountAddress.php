@@ -43,10 +43,10 @@ class CustomerAccountAddress extends AbstractPlugin
 
         if ($this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/enable_customer_account')) {
             if (isset($request['telephone'])) {
-                $errorMassage = $this->validatePhone($request['telephone']);
-                if ($errorMassage) {
+                $errorMessage = $this->validatePhone($request['telephone'], $request['country_id']);
+                if ($errorMessage) {
                     $error = true;
-                    $this->messageManager->addErrorMessage($errorMassage);
+                    $this->messageManager->addErrorMessage($errorMessage);
                 }
             }
         }

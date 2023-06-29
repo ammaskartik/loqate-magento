@@ -47,7 +47,7 @@ class ValidateAddress extends AbstractPlugin
 
         if ($this->helper->getConfigValue('loqate_settings/phone_settings/enable_customer_account_admin')) {
             if (isset($request['telephone'])) {
-                $errorMessage = $this->validatePhone($request['telephone']);
+                $errorMessage = $this->validatePhone($request['telephone'], $request['country_id']);
                 if ($errorMessage) {
                     $errors[] = $errorMessage;
                 }

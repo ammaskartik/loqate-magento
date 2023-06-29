@@ -68,10 +68,10 @@ class OrderSave extends AbstractPlugin
             //validate phone numbers for each address
             foreach ($requestAddresses as $key => $address) {
                 if (isset($address['telephone'])) {
-                    $errorMassage = $this->validatePhone($address['telephone']);
-                    if ($errorMassage) {
+                    $errorMessage = $this->validatePhone($address['telephone'], $address['country_id']);
+                    if ($errorMessage) {
                         $error = true;
-                        $this->messageManager->addErrorMessage("#$key: " . $errorMassage);
+                        $this->messageManager->addErrorMessage("#$key: " . $errorMessage);
                     }
                 }
             }
@@ -80,10 +80,10 @@ class OrderSave extends AbstractPlugin
         if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_create_order_admin')) {
             //validate email address
             if (isset($request['order']['account']['email'])) {
-                $errorMassage = $this->validateEmail($request['order']['account']['email']);
-                if ($errorMassage) {
+                $errorMessage = $this->validateEmail($request['order']['account']['email']);
+                if ($errorMessage) {
                     $error = true;
-                    $this->messageManager->addErrorMessage($errorMassage);
+                    $this->messageManager->addErrorMessage($errorMessage);
                 }
             }
         }

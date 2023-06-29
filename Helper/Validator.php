@@ -108,13 +108,16 @@ class Validator
      * @param $phoneNumber
      * @return array
      */
-    public function verifyPhoneNumber($phoneNumber)
+    public function verifyPhoneNumber($phoneNumber, $country = null)
     {
         if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
             return ['noKeyFound' => true];
         }
-
-        $response = $this->apiConnector->verifyPhone(['Phone' => $phoneNumber, 'source' => $this->version]);
+        $data = ['Phone' => $phoneNumber, 'source' => $this->version];
+        if (!empty($country)) {
+            $data['Country'] = $country;
+        }
+        $response = $this->apiConnector->verifyPhone($data);
 
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
