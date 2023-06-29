@@ -92,6 +92,10 @@
                     <label>Accept Valid_CatchAll response code</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="email_validation_timeout_value" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Validation timeout(1-15000 miliseconds)</label>
+                    <validate>validate-digits validate-digits-range digits-range-1-15000</validate>
+                </field>
             </group>
             <group id="phone_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Phone Validation</label>

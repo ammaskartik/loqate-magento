@@ -93,7 +93,9 @@ class Validator
             return ['noKeyFound' => true];
         }
 
-        $data = ['Email' => $emailAddress, 'source' => $this->version];
+        $timeout = $this->scopeConfig->getValue('loqate_settings/email_settings/email_validation_timeout_value');
+
+        $data = ['Email' => $emailAddress, 'source' => $this->version, 'Timeout' => $timeout];
 
         if ($this->scopeConfig->getValue('loqate_settings/email_settings/enable_accept_valid_catch_all')) {
             $data[Verify::ACCEPT_VALID_CATCH_ALL] = true;

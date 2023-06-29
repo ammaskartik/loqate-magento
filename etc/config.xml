@@ -24,6 +24,7 @@
                 <enable_customer_account_admin>1</enable_customer_account_admin>
                 <enable_create_order_admin>1</enable_create_order_admin>
                 <enable_accept_valid_catch_all>1</enable_accept_valid_catch_all>
+                <email_validation_timeout_value>15000</email_validation_timeout_value>
             </email_settings>
             <phone_settings>
                 <prevent_submit>0</prevent_submit>
