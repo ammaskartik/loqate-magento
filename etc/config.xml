@@ -23,6 +23,7 @@
                 <enable_checkout>1</enable_checkout>
                 <enable_customer_account_admin>1</enable_customer_account_admin>
                 <enable_create_order_admin>1</enable_create_order_admin>
+                <enable_accept_valid_catch_all>1</enable_accept_valid_catch_all>
             </email_settings>
             <phone_settings>
                 <prevent_submit>0</prevent_submit>

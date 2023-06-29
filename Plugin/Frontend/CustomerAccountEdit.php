@@ -28,9 +28,9 @@ class CustomerAccountEdit extends AbstractPlugin
             $request = $subject->getRequest()->getPostValue();
 
             if (isset($request['email'])) {
-                $errorMassage = $this->validateEmail($request['email']);
-                if ($errorMassage) {
-                    $this->messageManager->addErrorMessage($errorMassage);
+                $errorMessage = $this->validateEmail($request['email']);
+                if ($errorMessage) {
+                    $this->messageManager->addErrorMessage($errorMessage);
 
                     $this->session->setCustomerFormData($request);
                     return $this->resultRedirectFactory->create()->setUrl(

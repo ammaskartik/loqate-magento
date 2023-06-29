@@ -93,7 +93,12 @@ class Validator
             return ['noKeyFound' => true];
         }
 
-        $response = $this->apiConnector->verifyEmail(['Email' => $emailAddress, 'source' => $this->version]);
+        $data = ['Email' => $emailAddress, 'source' => $this->version];
+
+        if ($this->scopeConfig->getValue('loqate_settings/email_settings/enable_accept_valid_catch_all')) {
+            $data[Verify::ACCEPT_VALID_CATCH_ALL] = true;
+        }
+        $response = $this->apiConnector->verifyEmail($data);
 
         if (isset($response['error'])) {
             $this->logger->info($response['message']);
