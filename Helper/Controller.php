@@ -82,8 +82,16 @@ class Controller
             $searchText = $this->request->getParam('text');
             $origin = $this->request->getParam('origin');
 
-            $apiRequestParams = ['Text' => $searchText, 'source' => $this->version, 'Origin' => $origin];
+            $apiRequestParams = ['Text' => $searchText, 'source' => $this->version];
+            if (!empty($origin)) {
+                $apiRequestParams['Origin'] = $origin;
+            }
 
+            $countries = $this->scopeConfig->getValue('loqate_settings/capture_settings/restrict_countries');
+            if (!empty($countries)) {
+                $apiRequestParams['Countries'] = $countries;
+            }
+            
             $result = $this->apiConnector->find($apiRequestParams);
 
             if (isset($result['error'])) {
