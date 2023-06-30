@@ -93,7 +93,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="email_validation_timeout_value" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Validation timeout(1-15000 miliseconds)</label>
+                    <label>Validation timeout(1-15000 ms)</label>
                     <validate>validate-digits validate-digits-range digits-range-1-15000</validate>
                 </field>
             </group>
