@@ -125,6 +125,70 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
+            <group id="premium_data_sets" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Premium Data Sets</label>
+                <!-- Add 20 text fields -->
+                <field id="field1_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 1 Format</label>
+                </field>
+                <field id="field2_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 2 Format</label>
+                </field>
+                <field id="field3_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 3 Format</label>
+                </field>
+                <field id="field4_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 4 Format</label>
+                </field>
+                <field id="field5_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 5 Format</label>
+                </field>
+                <field id="field6_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 6 Format</label>
+                </field>
+                <field id="field7_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 7 Format</label>
+                </field>
+                <field id="field8_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 8 Format</label>
+                </field>
+                <field id="field9_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 9 Format</label>
+                </field>
+                <field id="field10_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 10 Format</label>
+                </field>
+                <field id="field11_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 11 Format</label>
+                </field>
+                <field id="field12_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 12 Format</label>
+                </field>
+                <field id="field13_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 13 Format</label>
+                </field>
+                <field id="field14_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 14 Format</label>
+                </field>
+                <field id="field15_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 15 Format</label>
+                </field>
+                <field id="field16_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 16 Format</label>
+                </field>
+                <field id="field17_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 17 Format</label>
+                </field>
+                <field id="field18_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 18 Format</label>
+                </field>
+                <field id="field19_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 19 Format</label>
+                </field>
+                <field id="field20_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Field 20 Format</label>
+                </field>
+            </group>
 		</section>
 	</system>
 </config>

@@ -17,6 +17,8 @@ use Magento\Framework\Module\ModuleListInterface;
  */
 class Controller
 {
+    const MAX_DATA_SETS_FIELDS = 20;
+
     /** @var Capture $apiConnector */
     private $apiConnector;
 
@@ -91,7 +93,7 @@ class Controller
             if (!empty($countries)) {
                 $apiRequestParams['Countries'] = $countries;
             }
-            
+
             $result = $this->apiConnector->find($apiRequestParams);
 
             if (isset($result['error'])) {
@@ -118,6 +120,12 @@ class Controller
         if ($this->apiConnector) {
             $addressId = $this->request->getParam('address_id');
             $apiRequestParams = ['Id' => $addressId, 'source' => $this->version];
+
+            $premiumDataSetsFields = $this->getPremiumDataSetsFields();
+
+            if (!empty($premiumDataSetsFields)) {
+                $apiRequestParams = array_merge($apiRequestParams, $premiumDataSetsFields);
+            }
 
             $result = $this->apiConnector->retrieve($apiRequestParams);
 
@@ -158,5 +166,19 @@ class Controller
 
         $capturedAddresses[] = serialize($storeArray);
         $this->session->setData('captured_addresses', $capturedAddresses);
+    }
+
+    protected function getPremiumDataSetsFields()
+    {
+        $data = [];
+
+        for ($i = 1; $i <= self::MAX_DATA_SETS_FIELDS; $i++) {
+            $fieldValue = $this->scopeConfig->getValue("loqate_settings/premium_data_sets/field{$i}_format");
+            if (!empty($fieldValue)) {
+                $data["Field{$i}Format"] = "{{$fieldValue}}";
+            }
+        }
+
+        return $data;
     }
 }
