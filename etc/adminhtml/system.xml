@@ -126,7 +126,7 @@
                 </field>
             </group>
             <group id="premium_data_sets" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Premium Data Sets</label>
+                <label>Address Capture - Enhanced Fields</label>
                 <!-- Add 20 text fields -->
                 <field id="field1_format" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Field 1 Format</label>
