@@ -17,7 +17,7 @@ class ModifyCreateAddressFields
             $city = $result['city'];
 //            $this->setupCity($city);
 
-//            $city->setDefaultValue('omg');
+//            $city->setDefaultValue('test');
         }
 
         return $result;

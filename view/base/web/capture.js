@@ -5,7 +5,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         country: 'CountryIso2',
         postcode: 'PostalCode',
         city: 'City',
-        county: 'ProvinceName',
+        county: 'ProvinceName'
     };
 
     $(document).ready(function() {
@@ -195,10 +195,6 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
 
                     return;
                 }
-                // console.log(key);
-                // console.log(addressElements[key]);
-                // console.log(addressElements)
-                // console.log(autofillAddress[val]);
                 $(addressElements[key]).val(autofillAddress[val]).change().get(0).dispatchEvent(evt);
             });
         }
