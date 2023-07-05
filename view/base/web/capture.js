@@ -5,7 +5,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         country: 'CountryIso2',
         postcode: 'PostalCode',
         city: 'City',
-        county: 'ProvinceName'
+        county: 'ProvinceName',
     };
 
     $(document).ready(function() {
@@ -68,6 +68,17 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                         },
                         country: country
                     };
+
+                    for (let i = 1; i <= 20; i++) {
+                        let currentFieldFormat = form.find(`#loqate_field${i}_format`);
+                        if (currentFieldFormat.length === 0) {
+                            currentFieldFormat = form.find(`[name*="loqate_field${i}_format"]`);
+                        }
+                        //add enhanced fields from the DOM form
+                        addressElements[`loqate_field${i}_format`] = currentFieldFormat;
+                        //map enhanced fields to the API response
+                        addressMapping[`loqate_field${i}_format`] = `Field${i}`;
+                    }
 
                     // create a DIV element which will contain the addresses
                     let addressList = $("<div class='loqate-autocomplete-items'></div>");
@@ -184,7 +195,10 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
 
                     return;
                 }
-
+                // console.log(key);
+                // console.log(addressElements[key]);
+                // console.log(addressElements)
+                // console.log(autofillAddress[val]);
                 $(addressElements[key]).val(autofillAddress[val]).change().get(0).dispatchEvent(evt);
             });
         }

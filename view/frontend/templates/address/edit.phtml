@@ -9,6 +9,7 @@
 /** @var \Magento\Framework\Escaper $escaper */
 /** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 /** @var \Magento\Customer\ViewModel\Address\RegionProvider $regionProvider */
+
 $viewModel = $block->getViewModel();
 $regionProvider = $block->getRegionProvider();
 ?>
@@ -200,13 +201,35 @@ $regionProvider = $block->getRegionProvider();
             <input type="hidden" name="default_shipping" value="1">
         <?php endif; ?>
 
-        <div class="field">
-            <label class="label" for="new_field">New Field Address</label>
-            <?php $customAttributes = $block->getAddress()->getCustomAttributes();?>
-            <input type="text" name="new_field"
-                   value="<?= isset($customAttributes['new_field']) ? $escaper->escapeHtmlAttr($customAttributes['new_field']->getValue()) : '' ?>"
-            />
-        </div>
+    <div style="display: none">
+        <?php
+        use Loqate\ApiIntegration\Helper\Controller;
+        /** @var Loqate\ApiIntegration\Helper\Data $helper */
+        $helper = $this->helper('Loqate\ApiIntegration\Helper\Data');
+        $customAttributes = $block->getAddress()->getCustomAttributes();
+
+        for ($i = 1; $i <= Controller::MAX_DATA_SETS_FIELDS; $i++) {
+            $fieldName = "loqate_field{$i}_format";
+            $backendValue = $helper->getConfigValue("loqate_settings/enhanced_data_sets/field{$i}_format");
+
+            if (!empty($backendValue)) {
+                $fieldLabel = $escaper->escapeHtmlAttr(__('Enhanced field %1 (%2)', $i, $backendValue));
+            } else {
+                $fieldLabel = $escaper->escapeHtmlAttr(__('Enhanced field %1', $i));
+            }
+            ?>
+            <div class="field">
+                <label class="label" for="<?= $fieldName ?>"><?= $fieldLabel ?></label>
+                <input type="text" name="<?= $fieldName ?>" id="<?= $fieldName ?>"
+                       value="<?= isset($customAttributes[$fieldName]) ? $escaper->escapeHtmlAttr(
+                           $customAttributes[$fieldName]->getValue()
+                       ) : '' ?>"
+                />
+            </div>
+            <?php
+        }
+        ?>
+    </div>
 
     </fieldset>
     <div class="actions-toolbar">

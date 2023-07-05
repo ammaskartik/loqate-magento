@@ -121,10 +121,10 @@ class Controller
             $addressId = $this->request->getParam('address_id');
             $apiRequestParams = ['Id' => $addressId, 'source' => $this->version];
 
-            $premiumDataSetsFields = $this->getPremiumDataSetsFields();
+            $enhancedDataSetsFields = $this->getEnhancedDataSetsFields();
 
-            if (!empty($premiumDataSetsFields)) {
-                $apiRequestParams = array_merge($apiRequestParams, $premiumDataSetsFields);
+            if (!empty($enhancedDataSetsFields)) {
+                $apiRequestParams = array_merge($apiRequestParams, $enhancedDataSetsFields);
             }
 
             $result = $this->apiConnector->retrieve($apiRequestParams);
@@ -168,12 +168,12 @@ class Controller
         $this->session->setData('captured_addresses', $capturedAddresses);
     }
 
-    protected function getPremiumDataSetsFields()
+    protected function getEnhancedDataSetsFields()
     {
         $data = [];
 
         for ($i = 1; $i <= self::MAX_DATA_SETS_FIELDS; $i++) {
-            $fieldValue = $this->scopeConfig->getValue("loqate_settings/premium_data_sets/field{$i}_format");
+            $fieldValue = $this->scopeConfig->getValue("loqate_settings/enhanced_data_sets/field{$i}_format");
             if (!empty($fieldValue)) {
                 $data["Field{$i}Format"] = "{{$fieldValue}}";
             }
