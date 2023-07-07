@@ -52,8 +52,7 @@
         <plugin name="LoqatePlaceOrderGuest" type="Loqate\ApiIntegration\Plugin\Frontend\PlaceOrderGuest" sortOrder="1" />
     </type>
 
-    <type name="Magento\Customer\Model\Metadata\Form">
-        <plugin name="modify_create_order_fields"
-                type="Loqate\ApiIntegration\Plugin\ModifyCreateAddressFields"/>
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="hide_enhanced_fields_checkout" type="Loqate\ApiIntegration\Plugin\HideEnhancedFieldsCheckoutPlugin" sortOrder="10" disabled="false" />
     </type>
 </config>

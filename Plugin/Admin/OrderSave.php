@@ -20,6 +20,9 @@ class OrderSave extends AbstractPlugin
      */
     public function aroundExecute(Save $subject, callable $proceed)
     {
+        //todo admin create new order with new addresses - info saved in quote
+        //todo at create new order trigger click once to add new and then to previous selection
+        //to load the enhanced fields values
         if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
             return $proceed();
         }
