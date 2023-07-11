@@ -104,7 +104,7 @@ abstract class AbstractPlugin
     protected function validateEmail($email)
     {
         $errorMessage = __('The provided email address is invalid.');
-        if (!$this->helper->getConfigValueForWebsite('loqate_settings/email_settings/prevent_submit')) {
+        if (!$this->helper->getConfigValue('loqate_settings/email_settings/prevent_submit')) {
             if (!$this->shouldVerify('loqate_email', $email)) {
                 return false;
             }
@@ -137,7 +137,7 @@ abstract class AbstractPlugin
     protected function validatePhone($phone, $country = null)
     {
         $errorMessage = __('The provided phone number is invalid.');
-        if (!$this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/prevent_submit')) {
+        if (!$this->helper->getConfigValue('loqate_settings/phone_settings/prevent_submit')) {
             if (!$this->shouldVerify('loqate_phone', $phone)) {
                 return false;
             }

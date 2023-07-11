@@ -28,14 +28,14 @@ class CheckoutShippingInformation extends AbstractPlugin
 
         if ($shippingAddress = $addressInformation->getShippingAddress()->getData()) {
             $errors = [];
-            if ($this->helper->getConfigValueForWebsite('loqate_settings/address_settings/enable_checkout')) {
+            if ($this->helper->getConfigValue('loqate_settings/address_settings/enable_checkout')) {
                 $response = $this->validator->verifyAddress($shippingAddress);
                 if (!empty($response['error'])) {
                     $errors[] = $response['message'];
                 }
             }
 
-            if ($this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/enable_checkout')) {
+            if ($this->helper->getConfigValue('loqate_settings/phone_settings/enable_checkout')) {
                 if (isset($shippingAddress['telephone'])) {
                     $errorMessage = $this->validatePhone($shippingAddress['telephone'], $shippingAddress['country_id']);
                     if ($errorMessage) {
@@ -44,7 +44,7 @@ class CheckoutShippingInformation extends AbstractPlugin
                 }
             }
 
-            if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_checkout')
+            if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_checkout')
             && ($email = $this->session->getData('loqate_email_to_validate'))) {
                 $errorMessage = $this->validateEmail($email);
                 if ($errorMessage) {

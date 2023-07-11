@@ -5,7 +5,6 @@ namespace Loqate\ApiIntegration\Helper;
 use Loqate\ApiConnector\Client\Capture;
 use Loqate\ApiIntegration\Logger\Logger;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
@@ -22,9 +21,6 @@ class Controller
     /** @var Capture $apiConnector */
     private $apiConnector;
 
-    /** @var ScopeConfigInterface $scopeConfig */
-    private $scopeConfig;
-
     /** @var ResultFactory $resultJsonFactory */
     protected $resultJsonFactory;
 
@@ -40,10 +36,11 @@ class Controller
     /** @var string */
     private $version = null;
 
+    private Data $helper;
+
     /**
      * Find constructor
      *
-     * @param ScopeConfigInterface $scopeConfig
      * @param ResultFactory $resultJsonFactory
      * @param RequestInterface $request
      * @param Logger $logger
@@ -51,19 +48,20 @@ class Controller
      * @param ModuleListInterface $moduleList
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        ResultFactory        $resultJsonFactory,
-        RequestInterface     $request,
-        Logger               $logger,
-        Session              $session,
-        ModuleListInterface  $moduleList
+        ResultFactory $resultJsonFactory,
+        RequestInterface $request,
+        Logger $logger,
+        Session $session,
+        ModuleListInterface $moduleList,
+        Data $helper
     ) {
-        $this->scopeConfig = $scopeConfig;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $request;
         $this->logger = $logger;
         $this->session = $session;
-        if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
+        $this->helper = $helper;
+
+        if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
         } else {
             $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
@@ -89,7 +87,7 @@ class Controller
                 $apiRequestParams['Origin'] = $origin;
             }
 
-            $countries = $this->scopeConfig->getValue('loqate_settings/capture_settings/restrict_countries');
+            $countries = $this->helper->getConfigValue('loqate_settings/capture_settings/restrict_countries');
             if (!empty($countries)) {
                 $apiRequestParams['Countries'] = $countries;
             }
@@ -173,7 +171,7 @@ class Controller
         $data = [];
 
         for ($i = 1; $i <= self::MAX_DATA_SETS_FIELDS; $i++) {
-            $fieldValue = $this->scopeConfig->getValue("loqate_settings/premium_data_sets/field{$i}_format");
+            $fieldValue = $this->helper->getConfigValue("loqate_settings/premium_data_sets/field{$i}_format",);
             if (!empty($fieldValue)) {
                 $data["Field{$i}Format"] = "{{$fieldValue}}";
             }

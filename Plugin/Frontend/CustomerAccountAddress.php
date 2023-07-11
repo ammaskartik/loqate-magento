@@ -26,7 +26,7 @@ class CustomerAccountAddress extends AbstractPlugin
 
         $request = $subject->getRequest()->getPostValue();
 
-        if ($this->helper->getConfigValueForWebsite('loqate_settings/address_settings/enable_customer_account')) {
+        if ($this->helper->getConfigValue('loqate_settings/address_settings/enable_customer_account')) {
             if (isset($request['street']['0'])) {
                 $request['street_1'] = $request['street']['0'];
             }
@@ -41,7 +41,7 @@ class CustomerAccountAddress extends AbstractPlugin
             }
         }
 
-        if ($this->helper->getConfigValueForWebsite('loqate_settings/phone_settings/enable_customer_account')) {
+        if ($this->helper->getConfigValue('loqate_settings/phone_settings/enable_customer_account')) {
             if (isset($request['telephone'])) {
                 $errorMessage = $this->validatePhone($request['telephone'], $request['country_id']);
                 if ($errorMessage) {

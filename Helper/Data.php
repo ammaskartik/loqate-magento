@@ -61,6 +61,6 @@ class Data extends AbstractHelper
      */
     public function getConfigValue($configPath)
     {
-        return $this->scopeConfig->getValue($configPath);
+        return $this->scopeConfig->getValue($configPath, ScopeInterface::SCOPE_STORE);
     }
 }
