@@ -18,7 +18,7 @@ class AccountManagement extends AbstractPlugin
         $customerEmail,
         $websiteId = null
     ) {
-        if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_checkout')) {
+        if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_checkout')) {
             if ($customerEmail) {
                 $this->session->setData('loqate_email_to_validate', $customerEmail);
             }

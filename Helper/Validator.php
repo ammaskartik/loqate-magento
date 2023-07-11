@@ -6,7 +6,6 @@ use Loqate\ApiConnector\Client\Verify;
 use Loqate\ApiIntegration\Logger\Logger;
 use Magento\Customer\Model\Session;
 use Magento\Directory\Model\RegionFactory;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Module\ModuleListInterface;
 
 /**
@@ -36,9 +35,6 @@ class Validator
     /** @var Verify $apiConnector */
     private $apiConnector;
 
-    /** @var ScopeConfigInterface $scopeConfig */
-    private $scopeConfig;
-
     /** @var Logger $logger */
     private $logger;
 
@@ -51,27 +47,29 @@ class Validator
     /** @var string */
     private $version = null;
 
+    protected $helper;
+
     /**
      * Validator construct
      *
-     * @param ScopeConfigInterface $scopeConfig
      * @param Logger $logger
      * @param Session $session
      * @param RegionFactory $regionFactory
      * @param ModuleListInterface $moduleList
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        Logger               $logger,
-        Session              $session,
-        RegionFactory        $regionFactory,
-        ModuleListInterface  $moduleList
+        Logger $logger,
+        Session $session,
+        RegionFactory $regionFactory,
+        ModuleListInterface $moduleList,
+        Data $helper,
     ) {
-        $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
         $this->session = $session;
         $this->regionFactory = $regionFactory;
-        if ($apiKey = $this->scopeConfig->getValue('loqate_settings/settings/api_key')) {
+        $this->helper = $helper;
+
+        if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Verify($apiKey);
         } else {
             $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
@@ -89,15 +87,15 @@ class Validator
      */
     public function verifyEmail($emailAddress)
     {
-        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
             return ['noKeyFound' => true];
         }
 
-        $timeout = $this->scopeConfig->getValue('loqate_settings/email_settings/email_validation_timeout_value');
+        $timeout = $this->helper->getConfigValue('loqate_settings/email_settings/email_validation_timeout_value');
 
         $data = ['Email' => $emailAddress, 'source' => $this->version, 'Timeout' => $timeout];
 
-        if ($this->scopeConfig->getValue('loqate_settings/email_settings/enable_accept_valid_catch_all')) {
+        if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_accept_valid_catch_all')) {
             $data[Verify::ACCEPT_VALID_CATCH_ALL] = true;
         }
         $response = $this->apiConnector->verifyEmail($data);
@@ -117,7 +115,7 @@ class Validator
      */
     public function verifyPhoneNumber($phoneNumber, $country = null)
     {
-        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
             return ['noKeyFound' => true];
         }
         $data = ['Phone' => $phoneNumber, 'source' => $this->version];
@@ -142,7 +140,7 @@ class Validator
      */
     public function verifyAddress($address, $checkForCaptured = true): array
     {
-        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
             return ['noKeyFound' => true];
         }
 
@@ -176,7 +174,7 @@ class Validator
      */
     public function verifyMultipleAddresses($addresses, $checkForCaptured = true)
     {
-        if (empty($this->scopeConfig->getValue('loqate_settings/settings/api_key'))) {
+        if (empty($this->helper->getConfigValue('loqate_settings/settings/api_key'))) {
             return ['noKeyFound' => true];
         }
 
@@ -257,7 +255,7 @@ class Validator
      */
     private function checkQualityIndex($qualityIndex): bool
     {
-        $configIndex = $this->scopeConfig->getValue('loqate_settings/address_settings/address_quality_index');
+        $configIndex = $this->helper->getConfigValue('loqate_settings/address_settings/address_quality_index');
 
         return $qualityIndex <= $configIndex;
     }

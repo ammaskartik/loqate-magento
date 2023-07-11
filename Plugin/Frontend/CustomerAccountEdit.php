@@ -24,7 +24,7 @@ class CustomerAccountEdit extends AbstractPlugin
             return $proceed();
         }
 
-        if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_register')) {
+        if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_register')) {
             $request = $subject->getRequest()->getPostValue();
 
             if (isset($request['email'])) {

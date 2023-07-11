@@ -24,7 +24,7 @@ class CustomerAccountCreate extends AbstractPlugin
             return $proceed();
         }
 
-        if ($this->helper->getConfigValueForWebsite('loqate_settings/email_settings/enable_customer_account')) {
+        if ($this->helper->getConfigValue('loqate_settings/email_settings/enable_customer_account')) {
             $request = $subject->getRequest()->getPostValue();
 
             if (isset($request['email'])) {
