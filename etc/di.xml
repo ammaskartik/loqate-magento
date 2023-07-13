@@ -51,4 +51,12 @@
     <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
         <plugin name="LoqatePlaceOrderGuest" type="Loqate\ApiIntegration\Plugin\Frontend\PlaceOrderGuest" sortOrder="1" />
     </type>
+
+    <type name="Magento\Customer\Api\Data\AddressInterface">
+        <plugin name="LoqateChangeAddressDefaultCountry" type="Loqate\ApiIntegration\Plugin\ChangeAddressDefaultCountry" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="LoqateChangeCheckoutDefaultCountry" type="Loqate\ApiIntegration\Plugin\ChangeCheckoutDefaultCountry" sortOrder="1"/>
+    </type>
 </config>
