@@ -1,6 +1,5 @@
 requirejs(['jquery', 'mage/url', 'domReady'], function ($, urlBuilder) {
     $(document).ready(function () {
-        console.log('here');
         //wait until the country fields are rendered
         const intervalId = setInterval(function () {
             let countryInput = $("#country");
@@ -33,8 +32,7 @@ requirejs(['jquery', 'mage/url', 'domReady'], function ($, urlBuilder) {
     function handleIpCountryApiResponse(response) {
         if (typeof response === 'object' && response !== null) {
             countryInput = $('[name*="country_id"]');
-
-            if (response.Iso2 !== null) {
+            if (response.Iso2 !== '' && response.Iso2 != null) {
                 countryInput.each(function () {
                     var option = jQuery(this).find('option[value="' + response.Iso2 + '"]');
                     option.prop('selected', true).trigger('change');

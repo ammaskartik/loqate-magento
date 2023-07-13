@@ -199,8 +199,6 @@ class Controller
         $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
         if ($this->apiExtras) {
             $addressIp = $this->remoteAddress->getRemoteAddress();
-            $addressIp = '79.118.87.27'; //todo REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-            $addressIp = '13.41.249.47'; //todo REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
             $apiRequestParams = ['IpAddress' => $addressIp];
 
             $result = $this->apiExtras->ipToCountry($apiRequestParams);
