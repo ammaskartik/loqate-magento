@@ -3,12 +3,14 @@
 namespace Loqate\ApiIntegration\Helper;
 
 use Loqate\ApiConnector\Client\Capture;
+use Loqate\ApiConnector\Client\Extras;
 use Loqate\ApiIntegration\Logger\Logger;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Module\ModuleListInterface;
 
 /**
@@ -20,6 +22,9 @@ class Controller
 
     /** @var Capture $apiConnector */
     private $apiConnector;
+
+    /** @var Extras $apiExtras */
+    private $apiExtras;
 
     /** @var ResultFactory $resultJsonFactory */
     protected $resultJsonFactory;
@@ -37,6 +42,7 @@ class Controller
     private $version = null;
 
     private Data $helper;
+    private RemoteAddress $remoteAddress;
 
     /**
      * Find constructor
@@ -53,7 +59,8 @@ class Controller
         Logger $logger,
         Session $session,
         ModuleListInterface $moduleList,
-        Data $helper
+        Data $helper,
+        RemoteAddress $remoteAddress
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $request;
@@ -63,11 +70,13 @@ class Controller
 
         if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
+            $this->apiExtras = new Extras($apiKey);
         } else {
             $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
             return false;
         }
         $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -178,5 +187,35 @@ class Controller
         }
 
         return $data;
+    }
+
+    /**
+     * Call ip2Country API endpoint use PHP library
+     *
+     * @return ResponseInterface|ResultInterface
+     */
+    public function ipToCountry()
+    {
+        $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
+        if ($this->apiExtras) {
+            $addressIp = $this->remoteAddress->getRemoteAddress();
+            $addressIp = '79.118.87.27'; //todo REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+            $addressIp = '13.41.249.47'; //todo REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+            $apiRequestParams = ['IpAddress' => $addressIp];
+
+            $result = $this->apiExtras->ipToCountry($apiRequestParams);
+
+            if (isset($result['error'])) {
+                $this->logger->info($result['message']);
+
+                return $resultJson->setData(
+                    ['error' => true, 'message' => __('Error occurred while trying to process your request')]
+                );
+            }
+
+            return $resultJson->setData($result);
+        } else {
+            return $resultJson->setData(['error' => true, 'message' => __('Object could not be initialized')]);
+        }
     }
 }
