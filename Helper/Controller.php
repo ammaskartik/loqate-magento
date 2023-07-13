@@ -23,9 +23,6 @@ class Controller
     /** @var Capture $apiConnector */
     private $apiConnector;
 
-    /** @var Extras $apiExtras */
-    private $apiExtras;
-
     /** @var ResultFactory $resultJsonFactory */
     protected $resultJsonFactory;
 
@@ -42,7 +39,6 @@ class Controller
     private $version = null;
 
     private Data $helper;
-    private RemoteAddress $remoteAddress;
 
     /**
      * Find constructor
@@ -52,6 +48,7 @@ class Controller
      * @param Logger $logger
      * @param Session $session
      * @param ModuleListInterface $moduleList
+     * @param Data $helper
      */
     public function __construct(
         ResultFactory $resultJsonFactory,
@@ -60,7 +57,6 @@ class Controller
         Session $session,
         ModuleListInterface $moduleList,
         Data $helper,
-        RemoteAddress $remoteAddress
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $request;
@@ -70,13 +66,11 @@ class Controller
 
         if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
-            $this->apiExtras = new Extras($apiKey);
         } else {
             $this->logger->info('No Api Key found! - Please configure Loqate plugin on Admin side!');
             return false;
         }
         $this->version = 'AdobeCommerce_v' . $moduleList->getOne('Loqate_ApiIntegration')['setup_version'];
-        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -187,33 +181,5 @@ class Controller
         }
 
         return $data;
-    }
-
-    /**
-     * Call ip2Country API endpoint use PHP library
-     *
-     * @return ResponseInterface|ResultInterface
-     */
-    public function ipToCountry()
-    {
-        $resultJson = $this->resultJsonFactory->create(ResultFactory::TYPE_JSON);
-        if ($this->apiExtras) {
-            $addressIp = $this->remoteAddress->getRemoteAddress();
-            $apiRequestParams = ['IpAddress' => $addressIp];
-
-            $result = $this->apiExtras->ipToCountry($apiRequestParams);
-
-            if (isset($result['error'])) {
-                $this->logger->info($result['message']);
-
-                return $resultJson->setData(
-                    ['error' => true, 'message' => __('Error occurred while trying to process your request')]
-                );
-            }
-
-            return $resultJson->setData($result);
-        } else {
-            return $resultJson->setData(['error' => true, 'message' => __('Object could not be initialized')]);
-        }
     }
 }
