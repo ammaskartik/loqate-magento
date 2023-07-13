@@ -8,5 +8,11 @@
                    name="loqate_config"
                    ifconfig="loqate_settings/capture_settings/enable_checkout"/>
         </referenceBlock>
+        <referenceBlock name="head.additional">
+            <block template="Loqate_ApiIntegration::ipcountry.phtml"
+                   class="Magento\Framework\View\Element\Template"
+                   name="loqate_ipcountry"
+                   ifconfig="loqate_settings/ipcountry_settings/enable_checkout"/>
+        </referenceBlock>
     </body>
 </page>

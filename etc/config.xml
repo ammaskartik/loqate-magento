@@ -33,6 +33,10 @@
                 <enable_customer_account_admin>1</enable_customer_account_admin>
                 <enable_create_order_admin>1</enable_create_order_admin>
             </phone_settings>
+            <ipcountry_settings>
+                <enable_customer_account>1</enable_customer_account>
+                <enable_checkout>1</enable_checkout>
+            </ipcountry_settings>
 		</loqate_settings>
 	</default>
 </config>

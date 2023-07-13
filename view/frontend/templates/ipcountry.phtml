@@ -1,0 +1,9 @@
+<?php
+/** @var Magento\Framework\View\Element\Template $block */
+?>
+<?php if (!$block->getRequest()->getParam('id')): ?>
+<script src="<?= $block->getViewFileUrl('Loqate_ApiIntegration::ipcountry.js') ?>"></script>
+<script>
+    const loqateIpcountryUrl = '<?= $block->getUrl('loqate/extras/ipcountry'); ?>';
+</script>
+<?php endif; ?>
