@@ -40,6 +40,9 @@ class Controller
 
     private Data $helper;
 
+    /** @var array */
+    protected $enhancedFieldsValues;
+
     /**
      * Find constructor
      *
@@ -122,10 +125,10 @@ class Controller
             $addressId = $this->request->getParam('address_id');
             $apiRequestParams = ['Id' => $addressId, 'source' => $this->version];
 
-            $premiumDataSetsFields = $this->getPremiumDataSetsFields();
+            $enhancedDataSetsFields = $this->getEnhancedDataSetsFields();
 
-            if (!empty($premiumDataSetsFields)) {
-                $apiRequestParams = array_merge($apiRequestParams, $premiumDataSetsFields);
+            if (!empty($enhancedDataSetsFields)) {
+                $apiRequestParams = array_merge($apiRequestParams, $enhancedDataSetsFields);
             }
 
             $result = $this->apiConnector->retrieve($apiRequestParams);
@@ -139,6 +142,10 @@ class Controller
 
             if (is_array($result)) {
                 $this->storeCapturedAddress($result[0]);
+            }
+
+            if (!empty($enhancedDataSetsFields)) {
+                $result = $this->applyEnhancedFields($result);
             }
 
             return $resultJson->setData($result);
@@ -169,17 +176,44 @@ class Controller
         $this->session->setData('captured_addresses', $capturedAddresses);
     }
 
-    protected function getPremiumDataSetsFields()
+    protected function getEnhancedDataSetsFields()
     {
         $data = [];
 
         for ($i = 1; $i <= self::MAX_DATA_SETS_FIELDS; $i++) {
-            $fieldValue = $this->helper->getConfigValue("loqate_settings/premium_data_sets/field{$i}_format",);
+            $fieldValue = $this->helper->getConfigValue("loqate_settings/enhanced_data_sets/field{$i}_format",);
             if (!empty($fieldValue)) {
                 $data["Field{$i}Format"] = "{{$fieldValue}}";
+                $this->enhancedFieldsValues[$i] = $this->removeSpecialChars($fieldValue);
             }
         }
 
         return $data;
+    }
+
+    protected function applyEnhancedFields($result)
+    {
+        $enhancedFieldsToApply = ['ProvinceName', 'City', 'Line1', 'Line2', 'Line3', 'Line4', 'Line5'];
+        $enhancedFieldsIndexes = array_combine($this->enhancedFieldsValues, array_keys($this->enhancedFieldsValues));
+
+        if (isset($result[0])) {
+            foreach ($enhancedFieldsToApply as $enhancedFieldToApply) {
+                if (isset($result[0][$enhancedFieldToApply]) && isset($enhancedFieldsIndexes[$enhancedFieldToApply])) {
+                    $enhancedFieldsIndex = $enhancedFieldsIndexes[$enhancedFieldToApply];
+                    $result[0][$enhancedFieldToApply] = $result[0]["Field{$enhancedFieldsIndex}"];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    protected function removeSpecialChars($str)
+    {
+        $regex = '/[^A-Za-z0-9]/';
+
+        $result = preg_replace($regex, '', $str);
+
+        return $result;
     }
 }
