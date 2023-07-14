@@ -5,7 +5,8 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         country: 'CountryIso2',
         postcode: 'PostalCode',
         city: 'City',
-        county: 'ProvinceName'
+        county: 'ProvinceName',
+        company: 'Company'
     };
 
     $(document).ready(function() {
@@ -57,6 +58,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     let country = form.find('#country');
                     if (country.length === 0) { country = form.find('[name*="country_id"]');}
 
+                    let company = form.find('#company');
+                    if (company.length === 0) { country = form.find('[name*="company"]');}
+
                     const addressElements = {
                         street_1: street_1,
                         street_2: street_2,
@@ -66,7 +70,8 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                             input: county_input,
                             list: county_list
                         },
-                        country: country
+                        country: country,
+                        company: company
                     };
 
                     // create a DIV element which will contain the addresses
