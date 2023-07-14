@@ -181,7 +181,8 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                         $(countyField).find("option").filter(function(){
                             var region1 = ($(this).text()).normalize('NFD').replace(/\p{Diacritic}|(-)|(\s)/gu, "");
                             var region2 = (autofillAddress[val]).normalize('NFD').replace(/\p{Diacritic}|(-)|(\s)/gu, "");
-                            return (($(this).val() === autofillAddress[val]) || (region1 === region2));
+
+                            return (($(this).val() === autofillAddress[val]) || (region1.toLowerCase() === region2.toLowerCase()));
                         }).prop('selected', true);
 
                         $(countyField).change().get(0).dispatchEvent(evt);
