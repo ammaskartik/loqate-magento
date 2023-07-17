@@ -59,7 +59,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     if (country.length === 0) { country = form.find('[name*="country_id"]');}
 
                     let company = form.find('#company');
-                    if (company.length === 0) { country = form.find('[name*="company"]');}
+                    if (company.length === 0) { company = form.find('[name*="company"]');}
 
                     const addressElements = {
                         street_1: street_1,
