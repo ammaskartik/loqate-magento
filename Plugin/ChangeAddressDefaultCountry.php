@@ -5,6 +5,7 @@ namespace Loqate\ApiIntegration\Plugin;
 use Loqate\ApiIntegration\Helper\Data;
 use Loqate\ApiIntegration\Helper\Extra;
 use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Model\Session;
 use Magento\Directory\Model\CountryFactory;
 
 class ChangeAddressDefaultCountry
@@ -12,12 +13,15 @@ class ChangeAddressDefaultCountry
     protected $countryFactory;
     private Extra $extra;
     private Data $helper;
+    private Session $session;
 
-    public function __construct(CountryFactory $countryFactory, Extra $extra, Data $helper)
+    public function __construct(CountryFactory $countryFactory, Extra $extra, Data $helper,Session $session)
     {
         $this->countryFactory = $countryFactory;
         $this->extra = $extra;
         $this->helper = $helper;
+
+        $this->session = $session;
     }
 
     public function afterGetCountryId(AddressInterface $subject, $result)
@@ -26,7 +30,11 @@ class ChangeAddressDefaultCountry
             return $result;
         }
 
-        $countryResult = $this->extra->ipToCountry();
+        $countryResult = $this->session->getData('loqate_ipcountry');
+        if (!$countryResult) {
+            $countryResult = $this->extra->ipToCountry();
+            $this->session->setData('loqate_ipcountry', $countryResult);
+        }
 
         if (isset($countryResult['Iso2']) && $countryResult['Iso2'] != null) {
 
