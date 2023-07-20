@@ -87,6 +87,7 @@ class Controller
         if ($this->apiConnector) {
             $searchText = $this->request->getParam('text');
             $origin = $this->request->getParam('origin');
+            $containerId = $this->request->getParam('containerId');
 
             $apiRequestParams = ['Text' => $searchText, 'source' => $this->version];
             if (!empty($origin)) {
@@ -96,6 +97,10 @@ class Controller
             $countries = $this->helper->getConfigValue('loqate_settings/capture_settings/restrict_countries');
             if (!empty($countries)) {
                 $apiRequestParams['Countries'] = $countries;
+            }
+
+            if (!empty($containerId)) {
+                $apiRequestParams['Container'] = $containerId;
             }
 
             $result = $this->apiConnector->find($apiRequestParams);
