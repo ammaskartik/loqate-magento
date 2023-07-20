@@ -81,6 +81,8 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     // append DIV as child to autocomplete container
                     $(addressList).insertAfter($(element));
 
+                    var selectedCountryIso2 = country.val();
+
                     //handle street input
                     let inputTimer = 0;
                     $(element).on('input', function () {
@@ -89,7 +91,6 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                             if (inputTimer) {
                                 clearTimeout(inputTimer);
                             }
-                            var selectedCountryIso2 = country.val();
                             inputTimer = setTimeout(function() {
                                 getAddresses(element, addressList, selectedCountryIso2);
                             }, 500);
@@ -101,7 +102,13 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     //handle address selection
                     $(addressList).on('click', '.loqate-address-item', function () {
                         const addressId = $(this).attr('data-id');
-                        getCompleteAddress(addressId, addressElements, addressList);
+                        const addressType = $(this).attr('data-type');
+
+                        if (addressType === 'Container'){
+                            getAddresses(element, addressList, selectedCountryIso2, addressId);
+                        } else {
+                            getCompleteAddress(addressId, addressElements, addressList);
+                        }
                     });
                 }
             })
@@ -110,10 +117,10 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         }
     }
 
-    function getAddresses(streetInput, addressList, origin)
+    function getAddresses(streetInput, addressList, origin, containerId = null)
     {
         $(addressList).empty();
-        const params = {'text': $(streetInput).val(), 'origin': origin}
+        const params = {'text': $(streetInput).val(), 'origin': origin, 'containerId': containerId}
         const captureUrl = loqateFindUrl + '?' +  $.param(params);
         jQuery.ajax({
             type: "GET",
@@ -159,7 +166,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
     {
         if (Array.isArray(response)) {
             response.forEach(function (item) {
-                let addressItem = $("<div class='loqate-address-item' data-id='" + item.Id + "'>" + item.Text + "</div>");
+                let addressItem = $("<div class='loqate-address-item' data-id='" + item.Id + "' data-type='" + item.Type + "'>" + item.Text + (item.Description ? item.Description : "") + "</div>");
                 $(addressItem).appendTo($(addressList));
             });
         }
