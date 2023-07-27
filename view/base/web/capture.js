@@ -81,11 +81,12 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     // append DIV as child to autocomplete container
                     $(addressList).insertAfter($(element));
 
-                    var selectedCountryIso2 = country.find('option:selected').val();
 
                     //handle street input
                     let inputTimer = 0;
                     $(element).on('input', function () {
+                        var selectedCountryIso2 = country.find('option:selected').val();
+
                         if ($(element).val()) {
                             // cancel any previously-set timer
                             if (inputTimer) {
@@ -105,6 +106,8 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                         const addressType = $(this).attr('data-type');
 
                         if (addressType === 'Container'){
+                            var selectedCountryIso2 = country.find('option:selected').val();
+
                             getAddresses(element, addressList, selectedCountryIso2, addressId);
                         } else {
                             getCompleteAddress(addressId, addressElements, addressList);
