@@ -81,7 +81,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     // append DIV as child to autocomplete container
                     $(addressList).insertAfter($(element));
 
-                    var selectedCountryIso2 = country.val();
+                    var selectedCountryIso2 = country.find('option:selected').val();
 
                     //handle street input
                     let inputTimer = 0;
