@@ -7,6 +7,7 @@ use Loqate\ApiIntegration\Logger\Logger;
 use Magento\Customer\Model\Session;
 use Magento\Directory\Model\RegionFactory;
 use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 
 /**
  * Class Validator
@@ -48,6 +49,7 @@ class Validator
     private $version = null;
 
     protected $helper;
+    private SerializerInterface $serializer;
 
     /**
      * Validator construct
@@ -63,11 +65,13 @@ class Validator
         RegionFactory $regionFactory,
         ModuleListInterface $moduleList,
         Data $helper,
+        SerializerInterface $serializer
     ) {
         $this->logger = $logger;
         $this->session = $session;
         $this->regionFactory = $regionFactory;
         $this->helper = $helper;
+        $this->serializer = $serializer;
 
         if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Verify($apiKey);
@@ -275,7 +279,7 @@ class Validator
             }
         }
 
-        if (in_array(serialize($formattedAddress), $storedAddresses)) {
+        if (in_array($this->serializer->serialize($formattedAddress), $storedAddresses)) {
             return true;
         }
 

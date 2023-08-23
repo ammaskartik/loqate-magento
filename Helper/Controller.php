@@ -12,6 +12,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 
 /**
  * Controller class
@@ -42,6 +43,7 @@ class Controller
 
     /** @var array */
     protected $enhancedFieldsValues;
+    private SerializerInterface $serializer;
 
     /**
      * Find constructor
@@ -60,12 +62,14 @@ class Controller
         Session $session,
         ModuleListInterface $moduleList,
         Data $helper,
+        SerializerInterface $serializer
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $request;
         $this->logger = $logger;
         $this->session = $session;
         $this->helper = $helper;
+        $this->serializer = $serializer;
 
         if ($apiKey = $this->helper->getConfigValue('loqate_settings/settings/api_key')) {
             $this->apiConnector = new Capture($apiKey);
@@ -177,7 +181,7 @@ class Controller
             : []
         );
 
-        $capturedAddresses[] = serialize($storeArray);
+        $capturedAddresses[] = $this->serializer->serialize($storeArray);
         $this->session->setData('captured_addresses', $capturedAddresses);
     }
 
@@ -186,7 +190,7 @@ class Controller
         $data = [];
 
         for ($i = 1; $i <= self::MAX_DATA_SETS_FIELDS; $i++) {
-            $fieldValue = $this->helper->getConfigValue("loqate_settings/enhanced_data_sets/field{$i}_format",);
+            $fieldValue = $this->helper->getConfigValue("loqate_settings/enhanced_data_sets/field{$i}_format");
             if (!empty($fieldValue)) {
                 $data["Field{$i}Format"] = "{{$fieldValue}}";
                 $this->enhancedFieldsValues[$i] = $this->removeSpecialChars($fieldValue);

@@ -2,7 +2,7 @@
     "name": "loqate-integration/adobe",
     "description": "Performs address capture and data validation (email, phone number and address) using Loqate API.",
     "type": "magento2-module",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "require": {
         "loqate-integration/api-connector": "*"
     },
