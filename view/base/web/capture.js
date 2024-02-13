@@ -179,8 +179,7 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
     {
         if (Array.isArray(response)) {
             const autofillAddress = response[0];
-            var evt = document.createEvent("HTMLEvents");
-            evt.initEvent("change", false, true);
+            var evt = new Event("change", {bubbles: false, cancelable: true});
 
             $.each(addressMapping, function (key, val) {
                 if (key === 'county') {
@@ -200,8 +199,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
 
                     return;
                 }
-
-                $(addressElements[key]).val(autofillAddress[val]).change().get(0).dispatchEvent(evt);
+                if (addressElements[key].length) {
+                    $(addressElements[key]).val(autofillAddress[val]).change().get(0).dispatchEvent(evt);
+                }
             });
         }
     }
