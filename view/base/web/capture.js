@@ -2,6 +2,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
     let addressMapping = {
         street_1: 'Line1',
         street_2: 'Line2',
+        street_3: 'Line3',
+        street_4: 'Line4',
+        street_5: 'Line5',
         country: 'CountryIso2',
         postcode: 'PostalCode',
         city: 'City',
@@ -43,6 +46,15 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     let street_2 = form.find('#street_2');
                     if (street_2.length === 0) { street_2 = form.find('[name*="street"][name*="[1]"]');}
 
+                    let street_3 = form.find('#street_3');
+                    if (street_3.length === 0) { street_3 = form.find('[name*="street"][name*="[2]"]');}
+
+                    let street_4 = form.find('#street_4');
+                    if (street_4.length === 0) { street_4 = form.find('[name*="street"][name*="[3]"]');}
+
+                    let street_5 = form.find('#street_5');
+                    if (street_5.length === 0) { street_5 = form.find('[name*="street"][name*="[4]"]');}
+
                     let postcode = form.find('#zip');
                     if (postcode.length === 0) { postcode = form.find('[name*="postcode"]');}
 
@@ -64,6 +76,9 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                     const addressElements = {
                         street_1: street_1,
                         street_2: street_2,
+                        street_3: street_3,
+                        street_4: street_4,
+                        street_5: street_5,
                         postcode: postcode,
                         city: city,
                         county: {
@@ -182,6 +197,10 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
             var evt = new Event("change", {bubbles: false, cancelable: true});
 
             $.each(addressMapping, function (key, val) {
+                if (val.length === 0) {
+                    // no matching element in magento address form, eg street line 3 or more - ignoring value
+                    continue;
+                }
                 if (key === 'county') {
                     $(addressElements[key]['input']).val(autofillAddress[val]).change().get(0).dispatchEvent(evt);
                     var countyField = $(addressElements[key]['list']);
