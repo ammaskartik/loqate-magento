@@ -105,12 +105,13 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
                         const addressId = $(this).attr('data-id');
                         const addressType = $(this).attr('data-type');
 
-                        if (addressType === 'Container'){
+                        if (addressType === 'Address') {
+                            getCompleteAddress(addressId, addressElements, addressList);
+                        }
+                        else {
                             var selectedCountryIso2 = country.find('option:selected').val();
 
                             getAddresses(element, addressList, selectedCountryIso2, addressId);
-                        } else {
-                            getCompleteAddress(addressId, addressElements, addressList);
                         }
                     });
                 }
