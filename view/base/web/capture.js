@@ -9,7 +9,20 @@ requirejs(['jquery', 'mage/url','domReady'], function($, urlBuilder) {
         company: 'Company'
     };
 
+    let loqateFindUrl;
+    let loqateRetrieveUrl;
+
     $(document).ready(function() {
+        var loqateElement = document.getElementById('loqate-urls');
+
+        if (loqateElement) {
+            loqateFindUrl = loqateElement.getAttribute('data-find-url');
+            loqateRetrieveUrl = loqateElement.getAttribute('data-retrieve-url');
+        } else {
+            console.error('Element with ID "loqate-urls" not found');
+            return;
+        }
+
         /*execute a function when someone clicks in the document:*/
         $(document).on('click', function () {
             closeAllLists(this);

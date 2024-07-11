@@ -3,7 +3,8 @@
 ?>
 <script src="<?= $block->getViewFileUrl('Loqate_ApiIntegration::capture.js') ?>"></script>
 <link href="<?= $block->getViewFileUrl('Loqate_ApiIntegration::capture.css') ?>" rel="stylesheet" type="text/css" />
-<script>
-    const loqateFindUrl = '<?= $block->getUrl('loqate/capture/find'); ?>';
-    const loqateRetrieveUrl = '<?= $block->getUrl('loqate/capture/retrieve'); ?>';
-</script>
+
+<div id="loqate-urls"
+     data-find-url="<?= $block->getUrl('loqate/capture/find'); ?>"
+     data-retrieve-url="<?= $block->getUrl('loqate/capture/retrieve'); ?>">
+</div>
